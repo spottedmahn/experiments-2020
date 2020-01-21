@@ -6,8 +6,16 @@ package miked.javatestsissue;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeAll;
+
 class LibraryTest {
-    @Test void testSomeLibraryMethod() {
+    @BeforeAll
+    void beforeAll() throws Exception {
+        throw new Exception("breaking beforeall");
+    }
+
+    @Test
+    void testSomeLibraryMethod() {
         Library classUnderTest = new Library();
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
     }
