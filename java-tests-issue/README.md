@@ -12,6 +12,15 @@ Unhandled Exceptions in `@BeforeAll` doesn't tell me what's going on.  It just e
 
 ## Debugging it
 
+### Stepping through the code
+
+I see the "real" error:
+
+>Exception has occurred: org.junit.platform.commons.JUnitException
+"org.junit.platform.commons.JUnitException: @BeforeAll method 'void miked.javatestsissue.LibraryTest.beforeAll() throws java.lang.Exception' must be static unless the test class is annotated with @TestInstance(Lifecycle.PER_CLASS)."
+
+### Enable Java Test Runner Verbose Logging
+
 >Name: Java Test Runner  
 Id: vscjava.vscode-java-test  
 Description: Run and debug JUnit or TestNG test cases  
