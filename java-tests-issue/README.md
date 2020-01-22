@@ -1,6 +1,6 @@
 ## The problem
 
-Unhandled Exceptions in `@BeforeAll` doesn't tell me what's going on.  It just exists and puts a useless error message in the output window.
+Unhandled Exceptions in `@BeforeAll` doesn't tell me what's going on.  It just exits and puts a less than useful error message in the output window.
 
 ![](readme-resources/2020-01-22-09-48-28.png)
 
