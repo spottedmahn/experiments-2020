@@ -1,6 +1,6 @@
 ## The problem
 
-Unhandled Exceptions in `@BeforeAll` doesn't tell me what's going on.  It just exists and puts a useless error message in the output window.
+Unhandled Exceptions in `@BeforeAll` doesn't tell me what's going on.  It just exits and puts a less than useful error message in the output window.
 
 ![](readme-resources/2020-01-22-09-48-28.png)
 
@@ -11,6 +11,22 @@ Unhandled Exceptions in `@BeforeAll` doesn't tell me what's going on.  It just e
 >Failed to parse the message: %ERROR  2,miked.javatestsissue.LibraryTest.
 
 ## Debugging it
+
+### Stepping through the code
+
+I see the "real" error:
+
+>Exception has occurred: org.junit.platform.commons.JUnitException
+"org.junit.platform.commons.JUnitException: @BeforeAll method 'void miked.javatestsissue.LibraryTest.beforeAll() throws java.lang.Exception' must be static unless the test class is annotated with @TestInstance(Lifecycle.PER_CLASS)."
+
+### Enable Java Test Runner Verbose Logging
+
+>Name: Java Test Runner  
+Id: vscjava.vscode-java-test  
+Description: Run and debug JUnit or TestNG test cases  
+Version: 0.22.1  
+Publisher: Microsoft  
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-test  
 
 ![](readme-resources/2020-01-22-10-19-00.png)
 
