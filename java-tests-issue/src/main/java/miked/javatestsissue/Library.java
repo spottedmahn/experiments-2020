@@ -5,6 +5,7 @@ package miked.javatestsissue;
 
 public class Library {
     public boolean someLibraryMethod() {
+        var id = "hello world";
         return true;
     }
 }

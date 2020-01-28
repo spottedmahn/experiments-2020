@@ -6,17 +6,31 @@ package miked.javatestsissue;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeAll;
 
 class LibraryTest {
-    @BeforeAll
-    void beforeAll() throws Exception {
-        throw new Exception("breaking beforeall");
-    }
+    // @BeforeAll
+    // void beforeAll() {//throws Exception {
+    //     //throw new Exception("breaking beforeall");
+    // }
 
     @Test
     void testSomeLibraryMethod() {
+        var id = "hello world";
         Library classUnderTest = new Library();
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
+    }
+
+    @Test
+    void testSomeLibraryMethodWithStreamForEach() {
+        var strings = new String[]{ "one", "two"};
+        var stream = Stream.of(strings);
+        stream.forEach(blah -> {
+            var id = "hello world";
+            Library classUnderTest = new Library();
+            assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
+        });
     }
 }
