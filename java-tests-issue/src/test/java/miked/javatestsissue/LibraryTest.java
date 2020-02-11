@@ -3,18 +3,19 @@
  */
 package miked.javatestsissue;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 class LibraryTest {
-    // @BeforeAll
-    // void beforeAll() {//throws Exception {
-    //     //throw new Exception("breaking beforeall");
-    // }
+    @BeforeAll
+    //oh, need it to be static!!!
+    void beforeAll() {//throws Exception {
+        //throw new Exception("breaking beforeall");
+    }
 
     @Test
     void testSomeLibraryMethod() {

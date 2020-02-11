@@ -22,10 +22,10 @@ public class Library {
     // after format document ALT + SHIFT F
     public String formatSwitchStatementAfter() {
         switch ("hello") {
-        case "world":
-            return "ok";
-        default:
-            return "sure";
+            case "world":
+                return "ok";
+            default:
+                return "sure";
         }
     }
 }
