@@ -2,6 +2,6 @@
     <profiles version="18">
         <profile kind="CodeFormatterProfile" name="Eclipse [mike d]" version="18">
         <setting id="org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation" value="81"/>
-        <setting id="org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch" value="true" />
+        <setting id="org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch" value="false" />
     </profile>
 </profiles>

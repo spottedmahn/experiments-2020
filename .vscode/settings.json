@@ -1,4 +1,4 @@
 {
     //"java.format.settings.url": "https://raw.githubusercontent.com/snjeza/vscode-test/master/fluent.xml"
-    "java.format.settings.url": "format full.xml"
+    "java.format.settings.url": "java-tests-issue/format partial.xml"
 }
