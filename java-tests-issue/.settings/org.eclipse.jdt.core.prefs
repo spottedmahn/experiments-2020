@@ -1,1 +1,2 @@
 org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch=true
+org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation=81
