@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <profiles version="18">
         <profile kind="CodeFormatterProfile" name="Eclipse [mike d]" version="18">
+        <!-- for lambda's, multiple funtion calls -->
         <setting id="org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation" value="81"/>
-        <setting id="org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch" value="false" />
+        <!-- "fix" defaults for eclipse formatting of switches -->
+        <setting id="org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch" value="true" />
+        <!-- "editor.tabSize": 2 equivalent -->
+        <setting id="org.eclipse.jdt.core.formatter.tabulation.size" value="2"/>
+        <setting id="org.eclipse.jdt.core.formatter.tabulation.char" value="space"/>
+        <setting id="org.eclipse.jdt.core.formatter.indentation.size" value="2"/>
     </profile>
 </profiles>
