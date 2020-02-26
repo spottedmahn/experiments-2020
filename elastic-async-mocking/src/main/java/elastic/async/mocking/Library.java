@@ -44,12 +44,10 @@ public class Library {
   }
 
   final String mockFinalTest() {
-    var mike = "";
-    return mike;
+    return "i was called"; //put a breakpoint here and debug the test
   }
 
   String mockNonFinalTest() {
-    var mike = "";
-    return mike;
+    return "i was called"; //put a breakpoint here and debug the test
   }
 }

@@ -3,52 +3,95 @@
  */
 package elastic.async.mocking;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.concurrent.ExecutionException;
+
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.DocWriteResponse.Result;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Cancellable;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class LibraryTest {
     @Test
-    void testSomeLibraryMethod() {
+    void testSomeLibraryMethod() throws InterruptedException, ExecutionException {
+        // remove 'Disabled' from the org.mockito.plugins.MockMakerDisabled filename
+        // for this test to pass
+        // stack trace
+        // java.lang.NullPointerException
+        // at
+        // org.elasticsearch.client.RestHighLevelClient.performRequestAsync(RestHighLevelClient.java:1609)
+        // at
+        // org.elasticsearch.client.RestHighLevelClient.performRequestAsyncAndParseEntity(RestHighLevelClient.java:1580)
+        // at
+        // org.elasticsearch.client.RestHighLevelClient.indexAsync(RestHighLevelClient.java:884)
+        // at
+        // elastic.async.mocking.LibraryTest.testSomeLibraryMethod(LibraryTest.java:40)
         var restHighLevelClient = mock(RestHighLevelClient.class);
         when(restHighLevelClient.indexAsync(any(), any(), any())).then(answer -> {
-            var arguments = answer.getArguments();
-            var thirdArg = arguments[2];
+            ActionListener<IndexResponse> listener = answer.getArgument(2);
+            var mockedIndexResponse = mock(IndexResponse.class);
+            when(mockedIndexResponse.getResult()).thenReturn(Result.UPDATED);
+            listener.onResponse(mockedIndexResponse);
             return null;
         });
         var classUnderTest = new Library(restHighLevelClient);
-        classUnderTest.doIt(null);
+        var actual = classUnderTest.doIt(null)
+                .get();
+        var expected = false;
+        assertEquals(expected, actual);
     }
 
-    @Mock
-    RestHighLevelClient restHighLevelClient2;
+    // interesting notes from research
+    // https://github.com/elastic/elasticsearch/issues/40534 - RestHighLevelClient
+    // impossible mocking
+    // https://github.com/elastic/elasticsearch/issues/31065#issuecomment-396360557
+    // - why things are final and not going to change
+    // https://github.com/elastic/elasticsearch/blob/master/x-pack/plugin/ml/src/test/java/org/elasticsearch/xpack/ml/job/persistence/MockClientBuilder.java#L158
 
     @Test
     void testSomeLibraryMethod2() {
-        doReturn(mock(Cancellable.class)).when(restHighLevelClient2)
+        // mockito when invokes method google search
+        // https://stackoverflow.com/a/11620196/185123
+        // https://www.stevenschwenke.de/spyingWithMockito
+        var restHighLevelClient = mock(RestHighLevelClient.class);
+        doReturn(mock(Cancellable.class)).when(restHighLevelClient)
                 .indexAsync(any(), any(), any());
-        var classUnderTest = new Library(restHighLevelClient2);
+        var classUnderTest = new Library(restHighLevelClient);
         classUnderTest.doIt(null);
     }
 
     @Test
     void finalMockTest() {
+        // remove 'Disabled' from the org.mockito.plugins.MockMakerDisabled filename
+        // for this test to pass
+        // https://stackoverflow.com/a/53837478/185123
+        // stack trace
+        // org.mockito.exceptions.misusing.MissingMethodInvocationException:
+        // when() requires an argument which has to be 'a method call on a mock'.
         var lib = mock(Library.class);
+        // mockFinalTest() will actually be called here 😲
         when(lib.mockFinalTest()).thenReturn("hello world");
+        var actual = lib.mockFinalTest();
+        var expected = "hello world";
+        assertEquals(expected, actual);
     }
 
     @Test
     void nonFinalMockTest() {
         var lib = mock(Library.class);
         when(lib.mockNonFinalTest()).thenReturn("hello world");
+        var actual = lib.mockNonFinalTest();
+        var expected = "hello world";
+        assertEquals(expected, actual);
     }
 }
