@@ -4,6 +4,7 @@
 package elastic.async.mocking;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.DocWriteResponse.Result;
@@ -30,8 +31,9 @@ public class Library {
       public void onResponse(IndexResponse indexResponse) {
         if (indexResponse.getResult() == Result.UPDATED) {
           result.complete(false);
+        } else {
+          result.complete(true);
         }
-        result.complete(true);
       }
 
       @Override
@@ -44,10 +46,60 @@ public class Library {
   }
 
   final String mockFinalTest() {
-    return "i was called"; //put a breakpoint here and debug the test
+    return "i was called"; // put a breakpoint here and debug the test
   }
 
   String mockNonFinalTest() {
-    return "i was called"; //put a breakpoint here and debug the test
+    return "i was called"; // put a breakpoint here and debug the test
+  }
+
+  CompletableFuture<Boolean> doItThatThrows(Object customer) {
+
+    var result = new CompletableFuture<Boolean>();
+    var indexRequest = new IndexRequest("dont-care");
+    indexRequest.id("1");
+
+    restHighLevelClient.indexAsync(indexRequest, RequestOptions.DEFAULT, new ActionListener<IndexResponse>() {
+      @Override
+      public void onResponse(IndexResponse indexResponse) {
+        if (indexResponse.getResult() == Result.UPDATED) {
+          result.completeExceptionally(new Exception("Index result shouldn't be update"));
+        } else {
+          result.complete(true);
+        }
+      }
+
+      @Override
+      public void onFailure(Exception e) {
+        result.completeExceptionally(e);
+      }
+    });
+
+    return result;
+  }
+
+  CompletionStage<Void> doItThatThrowsDebug(Object customer) {
+
+    var result = new CompletableFuture<Void>();
+    var indexRequest = new IndexRequest("dont-care");
+    indexRequest.id("1");
+
+    restHighLevelClient.indexAsync(indexRequest, RequestOptions.DEFAULT, new ActionListener<IndexResponse>() {
+      @Override
+      public void onResponse(IndexResponse indexResponse) {
+        if (indexResponse.getResult() == Result.UPDATED) {
+          result.completeExceptionally(new Exception("Index result shouldn't be update"));
+        } else {
+          result.complete(null);
+        }
+      }
+
+      @Override
+      public void onFailure(Exception e) {
+        result.completeExceptionally(e);
+      }
+    });
+
+    return result;
   }
 }

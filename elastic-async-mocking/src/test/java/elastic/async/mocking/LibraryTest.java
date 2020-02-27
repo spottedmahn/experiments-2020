@@ -4,6 +4,7 @@
 package elastic.async.mocking;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -93,5 +94,68 @@ class LibraryTest {
         var actual = lib.mockNonFinalTest();
         var expected = "hello world";
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldThrowAnException() throws InterruptedException, ExecutionException {
+        var restHighLevelClient = mock(RestHighLevelClient.class);
+        when(restHighLevelClient.indexAsync(any(), any(), any())).then(answer -> {
+            ActionListener<IndexResponse> listener = answer.getArgument(2);
+            var mockedIndexResponse = mock(IndexResponse.class);
+            when(mockedIndexResponse.getResult()).thenReturn(Result.UPDATED);
+            listener.onResponse(mockedIndexResponse);
+            return null;
+        });
+        var classUnderTest = new Library(restHighLevelClient);
+        assertThrows(Exception.class, () -> {
+            var result = classUnderTest.doItThatThrows(null)
+                    .get();
+            var amIGettingHere = "put a breakpoint here"; // never get here
+        });
+    }
+
+    @Test // this test never completes as the action listener is never called
+    void shouldThrowAnExceptionButDoesnt() throws InterruptedException, ExecutionException {
+        var restHighLevelClient = mock(RestHighLevelClient.class);
+        var classUnderTest = new Library(restHighLevelClient);
+        assertThrows(Exception.class, () -> {
+            var result = classUnderTest.doItThatThrows(null)
+                    .get();
+            var amIGettingHere = "put a breakpoint here"; // never get here
+        });
+        assertEquals(true, true); // never get here
+    }
+
+    @Test
+    void shouldThrowAnExceptionDebug() throws InterruptedException, ExecutionException {
+        var restHighLevelClient = mock(RestHighLevelClient.class);
+        when(restHighLevelClient.indexAsync(any(), any(), any())).then(answer -> {
+            ActionListener<IndexResponse> listener = answer.getArgument(2);
+            var mockedIndexResponse = mock(IndexResponse.class);
+            when(mockedIndexResponse.getResult()).thenReturn(Result.UPDATED);
+            listener.onResponse(mockedIndexResponse);
+            return null;
+        });
+        var classUnderTest = new Library(restHighLevelClient);
+        var blah = classUnderTest.doItThatThrows(null);
+        var result = blah.get();
+        var amIGettingHere = "put a breakpoint here"; // never get here
+    }
+
+    @Test
+    void shouldThrowAnExceptionDebug2() throws InterruptedException, ExecutionException {
+        var restHighLevelClient = mock(RestHighLevelClient.class);
+        when(restHighLevelClient.indexAsync(any(), any(), any())).then(answer -> {
+            ActionListener<IndexResponse> listener = answer.getArgument(2);
+            var mockedIndexResponse = mock(IndexResponse.class);
+            when(mockedIndexResponse.getResult()).thenReturn(Result.UPDATED);
+            listener.onResponse(mockedIndexResponse);
+            return null;
+        });
+        var classUnderTest = new Library(restHighLevelClient);
+        var blah = classUnderTest.doItThatThrowsDebug(null);
+        var blah2 = blah.toCompletableFuture();
+        var blah3 = blah2.get();
+        var amIGettingHere = "put a breakpoint here"; // never get here
     }
 }
