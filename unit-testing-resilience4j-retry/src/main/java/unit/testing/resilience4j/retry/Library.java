@@ -3,8 +3,24 @@
  */
 package unit.testing.resilience4j.retry;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ScheduledExecutorService;
+
+import io.github.resilience4j.retry.Retry;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class Library {
-    public boolean someLibraryMethod() {
-        return true;
+    private final Retry retry;
+    private final ScheduledExecutorService scheduler;
+
+    public CompletionStage<Boolean> someLibraryMethod() {
+        var result = retry.executeCompletionStage(scheduler, () -> {
+            var innerResult = new CompletableFuture<Boolean>();
+            innerResult.complete(true);
+            return innerResult;
+        });
+        return result;
     }
 }

@@ -3,12 +3,32 @@
  */
 package unit.testing.resilience4j.retry;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import io.github.resilience4j.core.IntervalFunction;
+import io.github.resilience4j.retry.Retry;
+import io.github.resilience4j.retry.RetryConfig;
 
 class LibraryTest {
-    @Test void testSomeLibraryMethod() {
-        Library classUnderTest = new Library();
-        assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
+    @Test
+    void testSomeLibraryMethod() throws InterruptedException, ExecutionException {
+        var retry = Retry.of("Blah", RetryConfig.custom()
+                // .maxAttempts(10)
+                // todo temp
+                .maxAttempts(1)
+                .intervalFunction(IntervalFunction.ofExponentialRandomBackoff(100, 1.5, 0.5))
+                .build());
+        var scheduler = mock(ScheduledExecutorService.class);
+        var classUnderTest = new Library(retry, scheduler);
+        var actual = classUnderTest.someLibraryMethod()
+            .toCompletableFuture()
+            .get();
+        assertTrue(actual, "someLibraryMethod should return 'true'");
     }
 }
