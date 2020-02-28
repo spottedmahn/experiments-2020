@@ -3,8 +3,39 @@
  */
 package no.test.report.details;
 
-public class Library {
-    public boolean someLibraryMethod() {
-        return true;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class Library implements MyInterface<MyModel> {
+
+    private final ObjectMapper objectMapper;
+
+    @Override
+    public byte[] toBytes(MyModel object) {
+        try {
+            return objectMapper.writeValueAsBytes(object);
+        } catch (Exception e) {
+            throw new MyRuntimeException("Unable to serialize object to bytes", e);
+        }
     }
+
+    // @Override
+    // public byte[] toBytes(MyModel object) {
+    // return objectMapper.writeValueAsBytes(object);
+    // }
+
+    // @Override
+    // public byte[] toBytes(Object object) throws JsonProcessingException {
+    // return objectMapper.writeValueAsBytes(object);
+    // }
+
+    // public byte[] toBytes2(Object object) {
+    // try {
+    // return objectMapper.writeValueAsBytes(object);
+    // } catch (Exception e) {
+    // throw new Exception("Unable to serialize object to bytes", e);
+    // }
+    // }
 }
