@@ -2,5 +2,6 @@
     //"java.format.settings.url": "https://raw.githubusercontent.com/snjeza/vscode-test/master/fluent.xml"
     "java.format.settings.url": "java-tests-issue/format partial.xml",
     "java.configuration.updateBuildConfiguration": "automatic",
-    "workbench.colorTheme": "Visual Studio Dark"
+    "workbench.colorTheme": "Visual Studio Dark",
+    "java.dependency.syncWithFolderExplorer": true
 }
