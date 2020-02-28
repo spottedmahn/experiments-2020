@@ -45,8 +45,10 @@ class LibraryTest {
             return null;
         });
         var classUnderTest = new Library(restHighLevelClient);
-        var actual = classUnderTest.doIt(null)
-                .get();
+        var completionStage = classUnderTest.doIt(null);
+        var completableFuture = completionStage.toCompletableFuture();
+        var actual = completableFuture.get();
+                
         var expected = false;
         assertEquals(expected, actual);
     }

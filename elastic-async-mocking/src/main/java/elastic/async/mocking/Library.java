@@ -4,6 +4,7 @@
 package elastic.async.mocking;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.DocWriteResponse.Result;
@@ -19,7 +20,7 @@ public class Library {
 
   private final RestHighLevelClient restHighLevelClient;
 
-  CompletableFuture<Boolean> doIt(Object customer) {
+  CompletionStage<Boolean> doIt(Object customer) {
 
     var result = new CompletableFuture<Boolean>();
     var indexRequest = new IndexRequest("dont-care");
