@@ -3,12 +3,19 @@
  */
 package unit.testing.resilience4j.retry;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.DocWriteResponse.Result;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.jupiter.api.Test;
 
 import io.github.resilience4j.core.IntervalFunction;
@@ -25,10 +32,40 @@ class LibraryTest {
                 .intervalFunction(IntervalFunction.ofExponentialRandomBackoff(100, 1.5, 0.5))
                 .build());
         var scheduler = mock(ScheduledExecutorService.class);
-        var classUnderTest = new Library(retry, scheduler);
+        var restHighLevelClient = mock(RestHighLevelClient.class);
+
+        var classUnderTest = new Library(retry, scheduler, restHighLevelClient);
         var actual = classUnderTest.someLibraryMethod()
-            .toCompletableFuture()
-            .get();
+                .toCompletableFuture()
+                .get();
         assertTrue(actual, "someLibraryMethod should return 'true'");
+    }
+
+    @Test
+    void testSomeLibraryMethod2() throws InterruptedException, ExecutionException {
+        var restHighLevelClient = mock(RestHighLevelClient.class);
+        when(restHighLevelClient.indexAsync(any(), any(), any())).then(answer -> {
+            ActionListener<IndexResponse> listener = answer.getArgument(2);
+            var mockedIndexResponse = mock(IndexResponse.class);
+            when(mockedIndexResponse.getResult()).thenReturn(Result.UPDATED);
+            listener.onResponse(mockedIndexResponse);
+            return null;
+        });
+
+        var retry = Retry.of("Blah", RetryConfig.custom()
+                // .maxAttempts(10)
+                // todo temp
+                .maxAttempts(1)
+                .intervalFunction(IntervalFunction.ofExponentialRandomBackoff(100, 1.5, 0.5))
+                .build());
+        var scheduler = mock(ScheduledExecutorService.class);
+
+        var classUnderTest = new Library(retry, scheduler, restHighLevelClient);
+        var completionStage = classUnderTest.doIt(null);
+        var completableFuture = completionStage.toCompletableFuture();
+        var actual = completableFuture.get();
+
+        var expected = false;
+        assertEquals(expected, actual);
     }
 }

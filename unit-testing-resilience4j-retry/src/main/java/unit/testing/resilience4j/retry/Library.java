@@ -7,20 +7,54 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ScheduledExecutorService;
 
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.DocWriteResponse.Result;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+
 import io.github.resilience4j.retry.Retry;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Library {
-    private final Retry retry;
-    private final ScheduledExecutorService scheduler;
+  private final Retry retry;
+  private final ScheduledExecutorService scheduler;
+  private final RestHighLevelClient restHighLevelClient;
 
-    public CompletionStage<Boolean> someLibraryMethod() {
-        var result = retry.executeCompletionStage(scheduler, () -> {
-            var innerResult = new CompletableFuture<Boolean>();
-            innerResult.complete(true);
-            return innerResult;
-        });
-        return result;
-    }
+  public CompletionStage<Boolean> someLibraryMethod() {
+    var result = retry.executeCompletionStage(scheduler, () -> {
+      var innerResult = new CompletableFuture<Boolean>();
+      innerResult.complete(true);
+      return innerResult;
+    });
+    return result;
+  }
+
+  CompletionStage<Boolean> doIt(Object customer) {
+    var result = retry.executeCompletionStage(scheduler, () -> {
+      var innerResult = new CompletableFuture<Boolean>();
+      var indexRequest = new IndexRequest("dont-care");
+      indexRequest.id("1");
+
+      restHighLevelClient.indexAsync(indexRequest, RequestOptions.DEFAULT, new ActionListener<IndexResponse>() {
+        @Override
+        public void onResponse(IndexResponse indexResponse) {
+          if (indexResponse.getResult() == Result.UPDATED) {
+            innerResult.complete(false);
+          }
+          innerResult.complete(true);
+        }
+
+        @Override
+        public void onFailure(Exception e) {
+          innerResult.complete(false);
+        }
+      });
+
+      return innerResult;
+    });
+    return result;
+  }
 }
