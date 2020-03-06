@@ -3,11 +3,25 @@
  */
 package display.name.generator;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.Test;
+
+import display.name.generator.util.ReplaceCamelCase;
+
+@DisplayNameGeneration(ReplaceCamelCase.class)
 class LibraryTest {
-    @Test void testSomeLibraryMethod() {
+    @Test
+    void thisNameShouldBeReplacedByTheGenerator() {
+        Library classUnderTest = new Library();
+        assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
+    }
+
+    @Test
+    @DisplayName("This works ✅")
+    void blah() {
         Library classUnderTest = new Library();
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
     }
