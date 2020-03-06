@@ -1,0 +1,6 @@
+<html>
+<body>
+<a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_NGRlNTAzYzUtZWYxNy00ZTAzLWE3N2ItNTY3MDdiMDhlYWY2%40thread.v2/0?context=%7b%22Tid%22%3a%2255e374bf-374e-49de-a716-836ce6f714d1%22%2c%22Oid%22%3a%22a3b48951-fda6-4656-90c7-c766c36b68d2%22%7d" target="_blank" rel="noreferrer noopener" title="https://teams.microsoft.com/l/meetup-join/19%3ameeting_ngrlntazyzutzwyxny00ztazlwe3n2itnty3mddimdhlywy2%40thread.v2/0?context=%7b%22tid%22%3a%2255e374bf-374e-49de-a716-836ce6f714d1%22%2c%22oid%22%3a%22a3b48951-fda6-4656-90c7-c766c36b68d2%22%7d">Join Microsoft Teams Meeting</a>
+</body>
+</html>
+
