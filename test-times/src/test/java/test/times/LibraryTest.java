@@ -3,11 +3,27 @@
  */
 package test.times;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
-    @Test void testSomeLibraryMethod() {
+
+    @BeforeAll
+    static void beforeAll() throws InterruptedException {
+        Thread.sleep(10000); //10 secs startup
+    }
+
+    @BeforeEach
+    void beforeEach() throws InterruptedException {
+        Thread.sleep(5000); //5 secs for each test
+    }
+
+    @Test
+
+    void testSomeLibraryMethod() {
         Library classUnderTest = new Library();
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
     }

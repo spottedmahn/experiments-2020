@@ -53,7 +53,7 @@ class LibraryTest {
         });
     }
 
-    @Test
+    //@Test
     void doesntCompleteWithMockScheduler() throws InterruptedException, ExecutionException {
         var classUnderTest = new Library(retry, mockScheduler);
         assertThrows(Exception.class, () -> {
