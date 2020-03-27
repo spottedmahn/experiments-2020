@@ -11,16 +11,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class LibraryTest {
+class LibraryTest2 {
 
     @BeforeAll
     static void beforeAll() throws InterruptedException {
-        Thread.sleep(4000); // 4 secs startup
+        Thread.sleep(1000); // 1 secs startup
     }
 
     @AfterAll
     static void afterAll() throws InterruptedException {
-        Thread.sleep(3000); //3 secs shutown
+        Thread.sleep(1000); // 1 secs shutown
     }
 
     @BeforeEach
@@ -30,7 +30,7 @@ class LibraryTest {
 
     @AfterEach
     void afterEach() throws InterruptedException {
-        Thread.sleep(2000); // 2 secs for each test
+        Thread.sleep(1000); // 1 secs for each test
     }
 
     @Test
