@@ -3,10 +3,21 @@
  */
 package after.each.async;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 class LibraryTest {
+    
+    @AfterEach
+    void afterEach(){
+        log.info("after each");
+    }
+
     @Test void testSomeLibraryMethod() {
         Library classUnderTest = new Library();
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");

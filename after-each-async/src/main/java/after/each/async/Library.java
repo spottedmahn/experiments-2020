@@ -3,8 +3,29 @@
  */
 package after.each.async;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Library {
     public boolean someLibraryMethod() {
+        log.info("logging works");
         return true;
+    }
+
+    public Future<String> calculateAsync() {
+        CompletableFuture<String> completableFuture 
+          = new CompletableFuture<>();
+     
+        Executors.newCachedThreadPool().submit(() -> {
+            Thread.sleep(5000);
+            completableFuture.complete("Hello");
+            return null;
+        });
+     
+        return completableFuture;
     }
 }
