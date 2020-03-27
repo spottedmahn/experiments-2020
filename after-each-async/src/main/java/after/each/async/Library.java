@@ -4,6 +4,7 @@
 package after.each.async;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -17,15 +18,30 @@ public class Library {
     }
 
     public Future<String> calculateAsync() {
-        CompletableFuture<String> completableFuture 
-          = new CompletableFuture<>();
-     
-        Executors.newCachedThreadPool().submit(() -> {
-            Thread.sleep(5000);
-            completableFuture.complete("Hello");
-            return null;
-        });
-     
+        var completableFuture = new CompletableFuture<String>();
+
+        Executors.newCachedThreadPool()
+                .submit(() -> {
+                    Thread.sleep(1000);
+                    completableFuture.complete("Hello");
+                    log.info("calc async completed");
+                    return null;
+                });
+
+        return completableFuture;
+    }
+
+    public CompletionStage<String> calculateAsync2() {
+        var completableFuture = new CompletableFuture<String>();
+
+        Executors.newCachedThreadPool()
+                .submit(() -> {
+                    Thread.sleep(1000);
+                    completableFuture.complete("Hello");
+                    log.info("calc async completed");
+                    return null;
+                });
+
         return completableFuture;
     }
 }

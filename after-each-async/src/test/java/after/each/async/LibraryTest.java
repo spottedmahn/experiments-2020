@@ -3,7 +3,10 @@
  */
 package after.each.async;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -12,14 +15,38 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 class LibraryTest {
-    
+
     @AfterEach
-    void afterEach(){
+    void afterEach() {
         log.info("after each");
     }
 
-    @Test void testSomeLibraryMethod() {
+    @Test
+    void testSomeLibraryMethod() {
         Library classUnderTest = new Library();
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
+    }
+
+    @Test
+    void testAsyncMethod() throws InterruptedException, ExecutionException {
+        var classUnderTest = new Library();
+        log.info("before async call");
+        var actual = classUnderTest.calculateAsync()
+                .get();
+        log.info("after async call");
+        var expected = "Hello";
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void testAsyncMethod2() throws InterruptedException, ExecutionException {
+        var classUnderTest = new Library();
+        log.info("before async call");
+        var actual = classUnderTest.calculateAsync2()
+                .toCompletableFuture()
+                .get();
+        log.info("after async call");
+        var expected = "Hello";
+        assertThat(actual).isEqualTo(expected);
     }
 }
