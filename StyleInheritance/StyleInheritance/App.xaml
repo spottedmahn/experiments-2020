@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="StyleInheritance.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--Global Styles-->
+            <Color x:Key="NavigationPrimary">#2196F3</Color>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+
+
+            <Color x:Key="LightPrimaryColor">LightPink</Color>
+            <Color x:Key="DarkPrimaryColor">DarkGreen</Color>
+            <Style x:Key="BaseColorStylePrimary" TargetType="View">
+                <Setter Property="BackgroundColor"
+                        Value="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}" />
+            </Style>
+            
+            <Style x:Key="ListViewStyleInline"
+                   TargetType="View">
+                <Setter Property="BackgroundColor"
+                        Value="{AppThemeBinding Light={StaticResource DarkPrimaryColor}, Dark={StaticResource LightPrimaryColor}}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
