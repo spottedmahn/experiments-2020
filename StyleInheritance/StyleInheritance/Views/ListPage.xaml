@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StyleInheritance.Views.ListPage">
     <ContentPage.Content>
-    <StackLayout>
-        <StackLayout Style="{StaticResource BaseColorStylePrimary}">
-            <Label Text="Hello World" />
+        <StackLayout>
+            <StackLayout Style="{StaticResource BaseColorStylePrimary}">
+                <Label Text="Hello World" />
+            </StackLayout>
+            <ListView x:Name="listView" 
+			ItemsSource="{Binding .}"
+		    Style="{StaticResource ListViewStyleInBasedOn}"
+                      />
         </StackLayout>
-        <ListView x:Name="listView" 
-			  ItemsSource="{Binding .}"
-		      Style="{StaticResource ListViewStyleInline}" />
-    </StackLayout>
     </ContentPage.Content>
 </ContentPage>
