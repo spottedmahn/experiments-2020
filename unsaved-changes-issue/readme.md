@@ -6,4 +6,4 @@ My suspicion is something isn't waiting for everything to finish before doing it
 Maybe the code generation for the C# code of the XAML?
 
 ## Screen recoring
-![screen recording MP4](readme-resources/Unsaved changes bug 2020-08-12 at 21.48.08.mp4)
+[screen recording MP4](readme-resources/Unsaved changes bug 2020-08-12 at 21.48.08.mp4)
