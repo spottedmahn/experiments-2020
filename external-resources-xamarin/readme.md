@@ -1,5 +1,5 @@
 ## Problem desc
-I want to have separate "style" files; I don't want a huge `App.xaml` with all my shared styles/colors/etc.  I also want to share styles to handle light/dark and I don't want to violate DRY.
+In a [Xamarin Forms](https://github.com/xamarin/Xamarin.Forms) app, I want to have separate "style" files; I don't want a huge `App.xaml` with all my shared styles/colors/etc.  I also want to share styles to handle light/dark and I don't want to violate [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
 
 ### References
 [Xamarin Forums: External ResourceDictionary in several projects](https://forums.xamarin.com/discussion/174030/external-resourcedictionary-in-several-projects)
