@@ -138,7 +138,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\StyleInheritance\StyleInheritance.csproj">
-      <Project>{EF8D49D6-260F-4490-BA79-50247DDF1ED1}</Project>
+      <Project>{394588D5-A0E8-40BA-95E5-00011074674E}</Project>
       <Name>StyleInheritance</Name>
     </ProjectReference>
   </ItemGroup>
