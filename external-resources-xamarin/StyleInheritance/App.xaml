@@ -13,11 +13,6 @@
                 <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
-            <Style x:Key="AppXamlBaseColorStylePrimary"
-                   TargetType="View">
-                <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light=WhiteSmoke, Dark=Purple}" />
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
