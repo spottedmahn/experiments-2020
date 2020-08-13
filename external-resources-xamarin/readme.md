@@ -44,3 +44,15 @@ In a [Xamarin Forms](https://github.com/xamarin/Xamarin.Forms) app, I want to ha
 
 ### ListPage.xaml
 ![](readme-resources/2020-08-13-11-06-42.png)
+
+## Debugging Tips
+
+**Protip**: In VS for Mac you can add an Exception Checkpoint so that VS will break when there's a problem otherwise they are swallowed it just doesn't work.
+
+### "Break on exceptions"
+
+![](readme-resources/2020-08-13-12-20-05.png)
+
+### Example
+
+![](readme-resources/2020-08-13-12-21-24.png)
