@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="StyleInheritance.BaseStyles">
+    <!--<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml" />
+        <local:Colors/>
+    </ResourceDictionary.MergedDictionaries>-->
+    <Style x:Key="SeparateFile" TargetType="View">
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}" />
+        <!--<Setter Property="BackgroundColor"
+                Value="{StaticResource LightPrimaryColor}"/>-->
+    </Style>
+</ResourceDictionary>

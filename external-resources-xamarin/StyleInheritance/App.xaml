@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StyleInheritance.App"
+             xmlns:local="clr-namespace:StyleInheritance">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Colors.xaml" />
+                <local:Colors/>
+                <local:BaseStyles/>
+            </ResourceDictionary.MergedDictionaries>-->
+
+
+            <ResourceDictionary Source="Colors.xaml"/>
+            <ResourceDictionary Source="BaseStyles.xaml"/>
+            <ResourceDictionary Source="SomeStyles.xaml"/>
+            <!--<Style x:Key="AppXaml"
+               TargetType="View">
+            <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}" />
+        </Style>-->
+            <!--Global Styles-->
+            <Color x:Key="NavigationPrimary">#2196F3</Color>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+            <Style x:Key="AppXamlBaseColorStylePrimary"
+                   TargetType="View">
+                <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light=WhiteSmoke, Dark=Purple}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

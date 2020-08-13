@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="StyleInheritance.SomeStyles">
+    <!--<Style x:Key="ListViewStyleInline"
+           TargetType="View">
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource DarkPrimaryColor}, Dark={StaticResource LightPrimaryColor}}" />
+    </Style>-->
+    <Style x:Key="ListViewStyleBasedOn"
+           TargetType="ListView"
+           BasedOn="{StaticResource SeparateFile}">
+        <Setter Property="SeparatorColor"
+                Value="{AppThemeBinding Light=Red, Dark=Blue}" />
+    </Style>
+    <!--<Style x:Key="SomeOtherStyle"
+           TargetType="StackLayout"
+           BasedOn="{StaticResource BaseColorStylePrimary}">
+        <Setter Property="FontSize"
+                Value="Title" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}" />
+    </Style>
+    <Style x:Key="SomeExternalGridStyle"
+           TargetType="Grid"
+           BasedOn="{StaticResource BaseColorStylePrimary}">
+        <Setter Property="FontSize"
+                Value="Title" />
+    </Style>-->
+</ResourceDictionary>
