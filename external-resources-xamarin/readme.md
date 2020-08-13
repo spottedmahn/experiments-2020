@@ -25,6 +25,8 @@ In a [Xamarin Forms](https://github.com/xamarin/Xamarin.Forms) app, I want to ha
 \* You can use parts of it but not all of it.  You can reference files via the `Source` property but you can't eliminate `<ResourceDictionary>` in *App.xaml* like [described here](https://devblogs.microsoft.com/xamarin/better-resource-organization-xamarin-forms/#upcoming-resourcedictionary-improvements):
 > You can simple write
 
+## Important Files
+
 ### App.xaml
 ![](readme-resources/2020-08-13-10-49-09.png)
 
@@ -33,3 +35,12 @@ In a [Xamarin Forms](https://github.com/xamarin/Xamarin.Forms) app, I want to ha
 
 ### Colors.xaml.cs
 ![](readme-resources/2020-08-13-10-50-48.png)
+
+## Light/Dark mode
+### BaseStyles.xaml
+![](readme-resources/2020-08-13-11-05-19.png)
+
+## Utilization
+
+### ListPage.xaml
+![](readme-resources/2020-08-13-11-06-42.png)
