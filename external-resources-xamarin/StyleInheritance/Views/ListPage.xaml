@@ -4,9 +4,6 @@
              x:Class="StyleInheritance.Views.ListPage">
     <ContentPage.Content>
         <StackLayout>
-            <!--<StackLayout Style="{StaticResource AppXaml}">
-                <Label Text="App XAML File" />
-            </StackLayout>-->
             <StackLayout Style="{StaticResource SeparateFile}">
                 <Label Text="Separate File" />
             </StackLayout>

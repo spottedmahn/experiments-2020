@@ -4,9 +4,6 @@ namespace StyleInheritance
 {
     public partial class BaseStyles : ResourceDictionary
     {
-        public BaseStyles()
-        {
-            InitializeComponent();
-        }
+        public BaseStyles() { InitializeComponent(); }
     }
 }

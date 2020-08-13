@@ -39,7 +39,8 @@ namespace StyleInheritance.ViewModels
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)
                 {
-                    Items.Add(item);
+                    //HRM problem
+                    //Items.Add(item);
                 }
             }
             catch (Exception ex)
