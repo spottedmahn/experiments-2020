@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ClassLibraryVbCore", "ClassLibraryVbCore\ClassLibraryVbCore.vbproj", "{3E69E845-9F22-4E80-89BE-768E09AEFA0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{21E90CF8-A501-4DF3-A5A0-40D509D4B754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21E90CF8-A501-4DF3-A5A0-40D509D4B754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21E90CF8-A501-4DF3-A5A0-40D509D4B754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E69E845-9F22-4E80-89BE-768E09AEFA0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E69E845-9F22-4E80-89BE-768E09AEFA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E69E845-9F22-4E80-89BE-768E09AEFA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E69E845-9F22-4E80-89BE-768E09AEFA0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
