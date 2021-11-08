@@ -120,12 +120,6 @@ HistoryPlayListM3U ConvertToSandiskDirStructure(PlayListM3U playlistM3U, string 
 		throw new Exception("duplicate filenames; use debugger");	
 	}
 
-    //TODO
-	//workaround for filename lengths
-	//D:\Music\2018 - 06 - Some Rap\Reg - 16~A Real Father.mp3
-	//D:\Music\2018 - 06 - Some Rap\Reg - 18~I Pray.mp3
-	//D:\Music\2018 - 06 - Some Rap\Round One -The Album~Rap~2002~1 of 1~Reg - 16~A Real Father.mp3
-	//D:\Music\2018 - 06 - Some Rap\Round One -The Album~Rap~2002~1 of 1~Reg - 18~I Pray.mp3
 	var result = new HistoryPlayListM3U
 	{
 		Name = playlistM3U.Name,
