@@ -1,16 +1,27 @@
 <Query Kind="Program">
   <Output>DataGrids</Output>
-  <Namespace>System.Threading.Tasks</Namespace>
+  <NuGetReference>ID3</NuGetReference>
+  <NuGetReference>z440.atl.core</NuGetReference>
+  <Namespace>Id3</Namespace>
+  <Namespace>Id3.Frames</Namespace>
   <Namespace>System.Collections.Concurrent</Namespace>
+  <Namespace>System.Threading.Tasks</Namespace>
+  <Namespace>ATL</Namespace>
 </Query>
 
-bool logWarnings = false;
+//todo's
+//check for image
+//check for image resolution too big; DMX, Plies (800 x 800 to 600 x 600)
+//improve filenames
+
+bool logMusicFileMissing = false;
 bool logCopyFileDetails = false;
+bool checkForHasFrontAlbumPic = true;
+bool overwriteMp3s = false;
+bool logPicAdded = true;
 
 void Main()
 {
-	var overwriteMp3s = false;
-
 	var playlistDir = @"C:\Users\mdepouw\OneDrive\Music\_me music attempt 2\_Playlists";
 	var playlistNames = new List<string>
 	{
@@ -27,10 +38,15 @@ void Main()
 		"2020-03 TI.m3u",
 		"Kids 2019.m3u"
 	};
-	playlistNames = new List<string>()
-	{
-		"2018-06 - Some Rap.m3u",
-	};
+	//playlistNames = new List<string>()
+	//{
+	//	//"2018-06 - Some Rap.m3u",
+	//	//"2021-11.m3u",
+	//	//"2018-05 - Adele, Biggie, Kendrick.m3u",
+	//	//"2018-08.m3u",
+	//	//"2021-09 DJ Freckles.m3u",
+	//	"2019-10.m3u",
+	//};
 	
 	var totalPlaylists = playlistNames.Count();
 	var countPlaylist = 0;
@@ -39,11 +55,12 @@ void Main()
 	pb.Dump();
 	
 	Parallel.ForEach(playlistNames,
-		new ParallelOptions { MaxDegreeOfParallelism = 2 }, playlistName =>
+		new ParallelOptions { MaxDegreeOfParallelism = 2 },
+		playlistName =>
 		{
 			CopyPlaylist(playlistDir, playlistName, overwriteMp3s);	
 			Interlocked.Increment(ref countPlaylist);
-			pb.Percent = (int)((countPlaylist/totalPlaylists)*100);
+			pb.Fraction = (double) countPlaylist / totalPlaylists;
 		});
 }
 
@@ -81,6 +98,8 @@ PlayListM3U ReadPlaylistM3UFull(string m3uFullPath)
 		Name = Path.GetFileNameWithoutExtension(m3uFullPath),
 		//read ANSI file? 🤷♂️
 		//https://stackoverflow.com/a/66947109/185123
+		//example album that was a problem
+		//var mike = "Un Día Normal";
 		Mp3FilePaths = File.ReadAllLines(m3uFullPath, Encoding.GetEncoding("ISO-8859-1")).ToList()
 	};
 	
@@ -89,6 +108,7 @@ PlayListM3U ReadPlaylistM3UFull(string m3uFullPath)
 
 HistoryPlayListM3U ConvertToSandiskDirStructure(PlayListM3U playlistM3U, string sandiskMusicDir)
 {
+	#region notes
 	//apparently I have duplicates in my m3u files?
 	//C:\Users\mdepouw\OneDrive\Music\_me music attempt 2\Biggie\Biggie~Life After Death~Rap~1997~1 of 2~Reg\05~Fuck You Tonight.mp3
 	//C: \Users\mdepouw\OneDrive\Music\_me music attempt 2\Biggie\Biggie~Life After Death~Rap~1997~2 of 2~Reg\05~Fuck You Tonight.mp3
@@ -109,18 +129,11 @@ HistoryPlayListM3U ConvertToSandiskDirStructure(PlayListM3U playlistM3U, string 
 	//	.ToList();
 	//var debug = playlistM3U.Mp3FilePaths.Where(mfp => mfp.ToUpper().Contains("die"))
 	//.ToList();
-	var duplicateMp3FileNames = playlistM3U.Mp3FilePaths.GroupBy(mfp => GetDictionaryKey(mfp))
-		.Where(g => g.Count() > 1)
-		.SelectMany(g => g)
-		.Select(mfp => new { mfp, key = GetDictionaryKey(mfp) })
-		.OrderBy(r => GetDictionaryKey(r.mfp))
-		.ToList();
-	if(duplicateMp3FileNames.Any())
-	{
-		throw new Exception("duplicate filenames; use debugger");	
-	}
+	#endregion
+	
+	CheckForDuplicates(playlistM3U);
 
-	var result = new HistoryPlayListM3U
+	return new HistoryPlayListM3U
 	{
 		Name = playlistM3U.Name,
 		Mp3FilePaths = playlistM3U.Mp3FilePaths.Select(mfp => 
@@ -129,7 +142,20 @@ HistoryPlayListM3U ConvertToSandiskDirStructure(PlayListM3U playlistM3U, string 
 		OriginalFilePaths = playlistM3U.Mp3FilePaths.ToDictionary(mfp => GetDictionaryKey(mfp)
 		   , mfp => mfp)
 	};
-	return result;
+}
+
+void CheckForDuplicates(PlayListM3U playlistM3U)
+{
+	var duplicateMp3FileNames = playlistM3U.Mp3FilePaths.GroupBy(mfp => GetDictionaryKey(mfp))
+			.Where(g => g.Count() > 1)
+			.SelectMany(g => g)
+			.Select(mfp => new { mfp, key = GetDictionaryKey(mfp) })
+			.OrderBy(r => GetDictionaryKey(r.mfp))
+			.ToList();
+	if (duplicateMp3FileNames.Any())
+	{
+		throw new Exception("duplicate filenames; use debugger");
+	}
 }
 
 string GetDictionaryKey(string mfp)
@@ -159,13 +185,7 @@ string WritePlaylistM3U(string sandiskPlaylistDir, PlayListM3U sandiskM3U)
 
 void CopyMp3s(HistoryPlayListM3U historyPlayListM3U, string sandiskMusicPath, bool overwriteFile = false)
 {
-	var dirPath = Path.Combine(sandiskMusicPath, historyPlayListM3U.Name);
-	if(!Directory.Exists(dirPath))
-	{
-		Directory.CreateDirectory(dirPath);
-	}
-
-	//var mike = "Un Día Normal";
+	CreateDirIfNeeded(historyPlayListM3U, sandiskMusicPath);
 
 	var totalFiles = historyPlayListM3U.Mp3FilePaths.Count;
 	var countFiles = 0;
@@ -174,34 +194,12 @@ void CopyMp3s(HistoryPlayListM3U historyPlayListM3U, string sandiskMusicPath, bo
 	pb.Dump();
 
 	Parallel.ForEach(historyPlayListM3U.Mp3FilePaths,
-		new ParallelOptions { MaxDegreeOfParallelism = 3 }, (mp3filePath) =>
+		new ParallelOptions { MaxDegreeOfParallelism = 3 },
+		(mp3filePath) =>
 		{
-			if (!File.Exists(mp3filePath) 
-				|| overwriteFile)
-			{
-				if (logCopyFileDetails)
-				{
-					Console.WriteLine($"copying: '{Path.GetFileNameWithoutExtension(mp3filePath)}'");
-				}
-				var key = GetDictionaryKeyFromSanDiskFileName(mp3filePath);
-				var sourceMp3FilePath = historyPlayListM3U.OriginalFilePaths[key];
-				if(!File.Exists(sourceMp3FilePath))
-				{
-					if (logWarnings)
-					{
-						Console.WriteLine($"WRN - MP3 file on playlist: '{historyPlayListM3U.Name}' doesn't exist: '{sourceMp3FilePath}'");
-					}
-					Interlocked.Increment(ref countFiles);
-					pb.Percent = (int)((countFiles/totalFiles)*100);
-					return;
-				}
-				//"The cloud operation was not completed before the time-out period expired
-				//. : 'D:\Music\2019-12 3 stars and up\Complete Motown Singles The, Volume 02 1962-(Disc 4) 17 - Shake Sherrie (Single Version)-NASP-02.mp3'"
-				//now I see it, this files aren't downloaded
-				File.Copy(sourceMp3FilePath, mp3filePath, overwriteFile);
-			}
+			var copyMp3Result = CopyMp3(mp3filePath, historyPlayListM3U, overwriteFile);
 			Interlocked.Increment(ref countFiles);
-			pb.Percent = (int)((countFiles / totalFiles) * 100);
+			pb.Fraction = (double) countFiles / totalFiles;
 		});
 	//Console.WriteLine($"DBG {historyPlayListM3U.Name} - {pb.Percent}");
 	
@@ -209,6 +207,106 @@ void CopyMp3s(HistoryPlayListM3U historyPlayListM3U, string sandiskMusicPath, bo
 	{
 		Console.Write("Done copying file(s)");
 	}
+}
+
+void CreateDirIfNeeded(HistoryPlayListM3U historyPlayListM3U, string sandiskMusicPath)
+{
+	var dirPath = Path.Combine(sandiskMusicPath, historyPlayListM3U.Name);
+	if (!Directory.Exists(dirPath))
+	{
+		Directory.CreateDirectory(dirPath);
+	}
+}
+
+CopyMp3Result CopyMp3(string destinationMp3filePath, HistoryPlayListM3U historyPlayListM3U, bool overwriteFile = false)
+{
+	var key = GetDictionaryKeyFromSanDiskFileName(destinationMp3filePath);
+	var sourceMp3FilePath = historyPlayListM3U.OriginalFilePaths[key];
+
+	if (!File.Exists(sourceMp3FilePath))
+	{
+		if (logMusicFileMissing)
+		{
+			Console.WriteLine($"WRN - MP3 file on playlist: '{historyPlayListM3U.Name}' doesn't exist: '{sourceMp3FilePath}'");
+		}
+		return CopyMp3Result.NotCopied;
+	}
+
+	if (checkForHasFrontAlbumPic)
+	{
+		var hasFrontAlbumPic = HasFrontAlbumPic(sourceMp3FilePath);
+		if(!hasFrontAlbumPic)
+		{
+			var attached = AttachFrontAlbumPic(sourceMp3FilePath);
+			if (!attached)
+			{
+				Console.WriteLine($@"mp3/m4a missing front album or generic cover: '{Directory.GetParent(sourceMp3FilePath).Parent.Name}'\'{Directory.GetParent(sourceMp3FilePath).Name}'\'{Path.GetFileNameWithoutExtension(sourceMp3FilePath)}'");
+			}
+		}
+	}
+	
+	if(File.Exists(destinationMp3filePath)
+		&& !overwriteFile)
+	{
+		return CopyMp3Result.NotCopied;
+	}
+
+	if (logCopyFileDetails)
+	{
+		Console.WriteLine($"copying: '{Path.GetFileNameWithoutExtension(destinationMp3filePath)}'");
+	}
+	
+	//"The cloud operation was not completed before the time-out period expired
+	//. : 'D:\Music\2019-12 3 stars and up\Complete Motown Singles The, Volume 02 1962-(Disc 4) 17 - Shake Sherrie (Single Version)-NASP-02.mp3'"
+	//now I see it, these files aren't downloaded
+	File.Copy(sourceMp3FilePath, destinationMp3filePath, overwriteFile);
+	return CopyMp3Result.Copied;
+}
+
+bool AttachFrontAlbumPic(string musicfilePath)
+{
+	var hasFrontAlbumPic = HasFrontAlbumPic(musicfilePath);
+	if(hasFrontAlbumPic)
+	{
+		return false;
+	}
+	var imagePath = Path.Combine(Path.GetDirectoryName(musicfilePath), "Folder.jpg");
+	if(!File.Exists(imagePath))
+	{
+		Console.WriteLine($"can't find 'folder.jpg' to attach to: {musicfilePath}");
+		return false;
+	}
+	
+	var track = new Track(musicfilePath);
+	// Add 'CD' embedded picture
+	var newPicture = PictureInfo.fromBinaryData(File.ReadAllBytes(imagePath), PictureInfo.PIC_TYPE.Front);
+	track.EmbeddedPictures.Add(newPicture);
+
+	// Save modifications on the disc
+	var saveResult = track.Save();
+	if(logPicAdded)
+	{
+		Console.WriteLine($"DBG - pic added to: '{Directory.GetParent(musicfilePath).Parent.Name}'\'{Directory.GetParent(musicfilePath).Name}'\'{Path.GetFileNameWithoutExtension(musicfilePath)}'");
+	}
+	return saveResult;
+}
+
+bool HasFrontAlbumPic(string musicfilePath)
+{
+	//using (var mp3 = new Mp3(mp3filePath))
+	//{
+	//	var tag = mp3.GetTag(Id3TagFamily.Version2X);
+	//	return tag.Pictures.Any(p => p.PictureType == PictureType.FrontCover);
+	//}
+	var track = new Track(musicfilePath);
+	return track.EmbeddedPictures.Any(ep => ep.PicType == ATL.PictureInfo.PIC_TYPE.Front
+		|| ep.PicType == ATL.PictureInfo.PIC_TYPE.Generic);
+}
+
+enum CopyMp3Result
+{
+	NotCopied,
+	Copied
 }
 
 /// <summary>workaround for filename lengths
@@ -225,7 +323,7 @@ string ShortenSandiskFileName(string filename)
 {
 	//28 is a "random" guess, no clue
 	//what the real limit is
-	return Right(filename, 28);
+	return Right(filename, 32);
 }
 
 static string Right(string sValue, int iMaxLength)
@@ -256,5 +354,3 @@ public class HistoryPlayListM3U : PlayListM3U
 {
 	public Dictionary<string, string> OriginalFilePaths { get; set; }
 }
-
-//public record PlayListM3U(string Name, List<string> mp3FilePaths);
