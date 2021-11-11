@@ -1,12 +1,13 @@
 <Query Kind="Program">
   <Output>DataGrids</Output>
   <NuGetReference>ID3</NuGetReference>
+  <NuGetReference>System.Text.Encoding.CodePages</NuGetReference>
   <NuGetReference>z440.atl.core</NuGetReference>
+  <Namespace>ATL</Namespace>
   <Namespace>Id3</Namespace>
   <Namespace>Id3.Frames</Namespace>
   <Namespace>System.Collections.Concurrent</Namespace>
   <Namespace>System.Threading.Tasks</Namespace>
-  <Namespace>ATL</Namespace>
 </Query>
 
 //todo's
@@ -14,7 +15,7 @@
 //check for image resolution too big; DMX, Plies (800 x 800 to 600 x 600)
 //improve filenames
 
-bool logMusicFileMissing = false;
+bool logMusicFileMissing = true;
 bool logCopyFileDetails = false;
 bool checkForHasFrontAlbumPic = true;
 bool overwriteMp3s = false;
@@ -22,7 +23,9 @@ bool logPicAdded = true;
 
 void Main()
 {
-	var playlistDir = @"C:\Users\mdepouw\OneDrive\Music\_me music attempt 2\_Playlists";
+	//Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+	
+	var playlistDir = @"C:\Users\mdepouw\OneDrive\Music\My Music\_Playlists";
 	var playlistNames = new List<string>
 	{
 		"2021-09 DJ Freckles.m3u",
@@ -36,7 +39,11 @@ void Main()
 		"2018-08.m3u",
 		//"2019-12 3 stars and up.m3u",
 		"2020-03 TI.m3u",
-		"Kids 2019.m3u"
+		"Kids 2019.m3u",
+		"2018-07.m3u",
+		"2018-09 - Lil Boosie.m3u",
+		"2020-03 TI.m3u",
+		"2020-06.m3u",
 	};
 	//playlistNames = new List<string>()
 	//{
@@ -45,7 +52,8 @@ void Main()
 	//	//"2018-05 - Adele, Biggie, Kendrick.m3u",
 	//	//"2018-08.m3u",
 	//	//"2021-09 DJ Freckles.m3u",
-	//	"2019-10.m3u",
+	//	//"2019-10.m3u",
+	//	"Kids 2019.m3u",
 	//};
 	
 	var totalPlaylists = playlistNames.Count();
@@ -100,8 +108,13 @@ PlayListM3U ReadPlaylistM3UFull(string m3uFullPath)
 		//https://stackoverflow.com/a/66947109/185123
 		//example album that was a problem
 		//var mike = "Un Día Normal";
-		Mp3FilePaths = File.ReadAllLines(m3uFullPath, Encoding.GetEncoding("ISO-8859-1")).ToList()
+		//Mp3FilePaths = File.ReadAllLines(m3uFullPath, Encoding.UTF8).ToList(),
+		//File.ReadAllLines(m3uFullPath, Encoding.GetEncoding("ISO-8859-1")).ToList(),
+		Mp3FilePaths = File.ReadAllLines(m3uFullPath, CodePagesEncodingProvider.Instance.GetEncoding(1252)).ToList(),
+		M3uFullPath = m3uFullPath
 	};
+	
+	//var debug = File.ReadAllLines(m3uFullPath, Encoding.UTF8).ToList();
 	
 	return result;
 }
@@ -140,7 +153,8 @@ HistoryPlayListM3U ConvertToSandiskDirStructure(PlayListM3U playlistM3U, string 
 		    ConvertMp3FilePathToSandiskMusicDir(mfp, sandiskMusicDir))
 			.ToList(),
 		OriginalFilePaths = playlistM3U.Mp3FilePaths.ToDictionary(mfp => GetDictionaryKey(mfp)
-		   , mfp => mfp)
+		   , mfp => mfp),
+		M3uFullPath = playlistM3U.M3uFullPath
 	};
 }
 
@@ -348,6 +362,7 @@ public class PlayListM3U
 {
 	public string Name { get; set; }
 	public List<string> Mp3FilePaths { get; set; }
+	public string M3uFullPath { get;set; }
 }
 
 public class HistoryPlayListM3U : PlayListM3U
