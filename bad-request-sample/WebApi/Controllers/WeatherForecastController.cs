@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace WebApplication2.Controllers
@@ -40,5 +41,17 @@ namespace WebApplication2.Controllers
         {
             return BadRequest("this is a demo of out of the box");
         }
+
+        [HttpPost("[action]")]
+        public IActionResult BadRequestExample2(BadRequestExample badRequestExample)
+        {
+            return BadRequest("this is a demo of out of the box");
+        }
+    }
+
+    public class BadRequestExample
+    {
+        [Required]
+        public string Blah { get; set; }
     }
 }
