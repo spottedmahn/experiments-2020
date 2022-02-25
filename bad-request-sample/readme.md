@@ -33,6 +33,14 @@ The following request body is an example of the serialized type:
 }
 ```
 
+>The ValidationProblemDetails type:
+>- Provides a machine-readable format for specifying errors in web API responses.
+>- Complies with the [RFC 7807 specification](https://tools.ietf.org/html/rfc7807).
+
+>To make automatic and custom responses consistent, call the `ValidationProblem`
+method instead of BadRequest. ValidationProblem returns a ValidationProblemDetails 
+object as well as the automatic response.
+
 [source](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-6.0&viewFallbackFrom=aspnetcore-2.1#:~:text=the%20default%20response%20type%20for%20an%20http%20400%20response)
 
 ## No way, the http status code is duplicated 😲
