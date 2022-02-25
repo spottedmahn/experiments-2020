@@ -45,7 +45,7 @@ namespace WebApplication2.Controllers
         [HttpPost("[action]")]
         public IActionResult BadRequestExample2(BadRequestExample badRequestExample)
         {
-            return BadRequest("this is a demo of out of the box");
+            return Ok("this is a demo of out of the box");
         }
     }
 
