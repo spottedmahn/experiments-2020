@@ -1,0 +1,1 @@
+`dapr run --app-id DaprCounter dotnet run`
