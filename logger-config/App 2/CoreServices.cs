@@ -42,21 +42,7 @@ namespace ModernConsoleAppTemplate
 
         private static void ConfigureServices(IServiceCollection services, IConfigurationRoot config)
         {
-            //services.AddLogging(configure =>
-            //{
-            //    //wire up logging to configuration
-            //    //pulled from C:\Users\mdepouw\source\repos\GitHub\spottedmahn\AspNetCore\src\DefaultBuilder\src\WebHost.cs
-            //    //I can't find the current location on GitHub
-            //    //todo should verify this the current way to do this
-            //    configure.AddConfiguration(config.GetSection("Logging"));
-
-            //    //add Console window logging
-            //    configure.AddConsole();
-
-            //    //add VS output window logging
-            //    configure.AddDebug();
-            //});
-            Logging.AddApiLogging(services, config);
+            Logging.AddMyLogging(services, config);
 
             //add custom services here
             services.AddTransient<IMyService, MyService>();

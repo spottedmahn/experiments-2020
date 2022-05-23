@@ -6,7 +6,7 @@ namespace ClassLibrary1
 {
     public static class Logging
     {
-        public static void AddApiLogging(IServiceCollection services, IConfigurationRoot config)
+        public static void AddMyLogging(IServiceCollection services, IConfigurationRoot config)
         {
             services.AddLogging(configure =>
             {

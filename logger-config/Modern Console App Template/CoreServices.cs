@@ -56,7 +56,7 @@ namespace ModernConsoleAppTemplate
             //    //add VS output window logging
             //    configure.AddDebug();
             //});
-            Logging.AddApiLogging(services, config);
+            Logging.AddMyLogging(services, config);
 
             //add custom services here
             services.AddTransient<IMyService, MyService>();
