@@ -15,5 +15,7 @@ to the output source, etc.
 
 - this does mean that the config values will be in
 every app
+- still searching for the answers on this one
+- the issue is reduced when using IaC though
 
 ![File 3](readme-media/file-3.png)
