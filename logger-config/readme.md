@@ -1,15 +1,19 @@
-Very rough VS Project Template for a .NET Core Console app
-with Dependency Injection, Configuration and Logging
+﻿started w/ https://github.com/spottedmahn/turbo-carnival
 
-![console screenshot of logging and custom config](readme-media/console-logging-workaround.png)
+## Output
+![File](readme-media/file.png)
 
-[Developer Community Feature Request](https://developercommunity.visualstudio.com/idea/651671/net-core-console-template-with-di-logging-config.html)
+## Some code details
 
-[Twitter discussion](https://twitter.com/spottedmahn/status/1151911538183364609?s=20)
+- create an extension method that controls
+all the `code` for wiring up the logger
+to the output source, etc.
 
+![File 2](readme-media/file-2.png)
 
-**Reference Blog Posts** I used to Put this Together:
+## DRY violations ⚠
 
-- DI: https://gunnarpeipman.com/net/net-core-dependency-injection/
-- Config: https://garywoodfine.com/configuration-api-net-core-console-application/
-- Logging: https://www.blinkingcaret.com/2018/02/14/net-core-console-logging/
+- this does mean that the config values will be in
+every app
+
+![File 3](readme-media/file-3.png)
