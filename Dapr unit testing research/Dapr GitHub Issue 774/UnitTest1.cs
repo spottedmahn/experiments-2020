@@ -43,7 +43,7 @@ namespace DaprGitHubIssue774
             };
 
             //mock service invocation
-            daprClient.Setup(m => m.InvokeMethodAsync<string>(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
+            daprClient.Setup(m => m.InvokeMethodAsync<string>(requestToOtherApp, It.IsAny<CancellationToken>()))
                 .Callback<HttpRequestMessage, CancellationToken>(
                     (r, _) => requestCaptureHelper.Add(r))
                 .ReturnsAsync("mocked response from service invocation");
@@ -119,6 +119,23 @@ namespace DaprGitHubIssue774
 
             //more thoughts
             //why use a list when there's only one?
+
+            //more thoughts
+            //the setup call on InvokeMethodAsync
+            //can be switched from It.IsAny()
+            //to the specific request we're
+            //controlling in the setup
+            //of CreateInvokeMethodRequest;
+            //therefore, if it's not that object
+            //then the original setup won't
+            //match; therefore guaranteeing
+            //the we have a valid test
+            //otherwise the first assert
+            //wouldn't pass.
+
+            //so my more I think about this
+            //the more I'm convinced this
+            //assertion adds no value.
             requestCaptureHelper.Should().HaveCount(1);
             var requestBody = await requestCaptureHelper![0].Content!.ReadAsStringAsync();
             requestBody.Should().Be("Hello 1");
