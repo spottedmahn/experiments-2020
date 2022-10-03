@@ -63,9 +63,9 @@ namespace DaprUnitTestPrj1
             actual.Should().BeTrue();
         }
 
-        [TestMethod("w/o mocking CreateInvokeMethodRequest " +
-            "the InvokeMethodAsync mock works " +
-            "BUT we can't verify the service invocation " +
+        [TestMethod("w/o mocking CreateInvokeMethodRequest \n" +
+            "the InvokeMethodAsync mock works \n" +
+            "BUT we can't verify the service invocation \n" +
             "parameters like app-id, method, etc.")]
         public async Task TestMethod2()
         {

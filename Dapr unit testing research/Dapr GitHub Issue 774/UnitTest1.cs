@@ -19,7 +19,8 @@ namespace DaprGitHubIssue774
         /// AND CreateInvokeMethodRequest.
         /// </summary>
         /// <returns></returns>
-        [TestMethod("refactored sample from GitHub issue 774 by @halspang")]
+        [TestMethod("refactored sample from GitHub \r" +
+            "issue 774 by @halspang")]
         //https://github.com/dapr/dotnet-sdk/issues/774#issuecomment-966721169
         public async Task Test()
         {
