@@ -17,3 +17,9 @@ some sample tests
 
 ## Tests
 ![File](readme-assets/file.png)
+
+---
+
+## Other stuff
+I did find [this Stack Overflow question](https://stackoverflow.com/questions/68362431/how-do-you-do-unit-testing-with-dapr)
+which seems to be asking basically what I'm asking.
