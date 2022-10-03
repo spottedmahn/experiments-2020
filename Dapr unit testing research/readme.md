@@ -1,6 +1,6 @@
 # How can we verify service invocation in Dapr?
 
-I didn't find much on Stack Overflow unfortunatley.  I did find [this GitHub](https://github.com/dapr/dotnet-sdk/issues/774#issuecomment-966721169) w/ a workaround I couldn't just read it & wrap my head around what it was doing & how to take that pattern & apply it to my work.
+I didn't find much on Stack Overflow unfortunatley.  I did find [this GitHub](https://github.com/dapr/dotnet-sdk/issues/774#issuecomment-966721169) w/ a workaround but I couldn't just read it & wrap my head around what it was doing & how to take that pattern & apply it to my work.
 
 ---
 
