@@ -1,6 +1,6 @@
 ﻿using Dapr.Client;
 
-namespace Bulk_secret_unit_testing
+namespace BulkSecretUnitTesting
 {
     internal class ExampleService
     {

@@ -2,7 +2,7 @@ using Dapr.Client;
 using FluentAssertions;
 using Moq;
 
-namespace Bulk_secret_unit_testing
+namespace BulkSecretUnitTesting
 {
     [TestClass]
     public class UnitTest1
