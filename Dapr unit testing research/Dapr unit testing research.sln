@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bulk secret unit testing", "Bulk secret unit testing\Bulk secret unit testing.csproj", "{F3566E00-0218-4601-A350-BAC6A8BAFE65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{5E23E53E-F64A-438F-AA66-F225CFC3FD6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E23E53E-F64A-438F-AA66-F225CFC3FD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E23E53E-F64A-438F-AA66-F225CFC3FD6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3566E00-0218-4601-A350-BAC6A8BAFE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3566E00-0218-4601-A350-BAC6A8BAFE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3566E00-0218-4601-A350-BAC6A8BAFE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3566E00-0218-4601-A350-BAC6A8BAFE65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
