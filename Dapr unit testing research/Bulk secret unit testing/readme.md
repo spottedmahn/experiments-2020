@@ -1,4 +1,6 @@
 ﻿https://stackoverflow.com/questions/68362431
+&
+https://github.com/dapr/dotnet-sdk/issues/774#issuecomment-1266216355
 
 >How do you do unit testing with Dapr?  
 in this particular instance, I'm using the 
